@@ -18,10 +18,10 @@
         <router-link to="/projects">My projects</router-link>
       </li>
       <li v-if="checkIfAuth">Logged in as {{getUser.name}}</li>
-      <li @click="logOut" v-if="checkIfAuth">Log out</li>
       <li v-if="checkIfAuth" @click="toggleMenu()">
         <router-link to="/settings">Settings</router-link>
       </li>
+      <li @click="logOut" v-if="checkIfAuth">Log out</li>
     </ul>
     <font-awesome-icon :class="{hamburger: true, open: menuClass}" icon="bars" @click="toggleMenu"></font-awesome-icon>
   </div>
