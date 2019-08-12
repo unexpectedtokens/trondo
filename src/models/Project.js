@@ -13,29 +13,30 @@ const projectSchema = new mongoose.Schema(
     },
     users: [
       {
-        _id: {
-          type: mongoose.Schema.Types.ObjectId
-        }
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User"
       }
     ],
     tasks: [
       {
-        title: {
-          type: String,
-          trim: true,
-          minLength: 10
-        },
-        AddedBy: {
-          type: mongoose.Schema.Types.ObjectId,
-          required: true,
-          ref: "User"
-        },
-        due: {
-          type: String
-        },
-        kind: {
-          type: String
-        }
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Projecttask"
+        // title: {
+        //   type: String,
+        //   trim: true,
+        //   minLength: 10
+        // },
+        // AddedBy: {
+        //   type: mongoose.Schema.Types.ObjectId,
+        //   required: true,
+        //   ref: "User"
+        // },
+        // due: {
+        //   type: String
+        // },
+        // kind: {
+        //   type: String
+        // }
       }
     ]
   },

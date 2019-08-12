@@ -184,8 +184,11 @@ export const store = new Vuex.Store({
       axios.post("http://localhost:4000/projects", { title: payload.title });
     },
     getUserProjects: ({ commit }, payload) => {
-      axios.get("http://localhost:4000/projects").then(response => {
-        commit("handleFetchedProjects", response.data);
+      return new Promise((resolve, reject) => {
+        axios.get("http://localhost:4000/projects").then(response => {
+          commit("handleFetchedProjects", response.data);
+          return resolve(response.data);
+        });
       });
     },
     changeBackgroundAction: ({ commit }, payload) => {

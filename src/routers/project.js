@@ -21,14 +21,37 @@ router.post("/projects", checkIfAuth, async (req, res) => {
 router.get("/projects", checkIfAuth, async (req, res) => {
   //temporary fix
   //
-  const projects = await Project.find({ Owner: req.user._id });
-  // const filteredProjects = projects.filter(project => {
-  //   return project.users.includes(req.user._id);
-  // });
-  res.send(projects);
+  try {
+    await req.user.populate("projects").execPopulate();
+    res.send(req.user.projects);
+  } catch (e) {
+    console.log(e);
+  }
 });
 router.get("/projects/:id", checkIfAuth, async (req, res) => {
-  const project = await Project.findById(req.body._id);
-  res.send(project);
+  const project = await Project.findById(req.params.id);
+  if (project && project.Owner === req.user._id) {
+    return res.send(project);
+  }
+  res.status(404).send();
+});
+router.patch("/projects/:id", checkIfAuth, async (req, res) => {
+  try {
+    const project = await Project.findById(req.params._id);
+    const updates = Object.keys(req.body);
+    if (updates.includes(task)) {
+      const newTask = new ProjectTask({
+        ...req.body
+      });
+      project.tasks.concat({
+        _id: newTask._id
+      });
+      await project.save();
+      await newTask.save();
+      res.status(203).send();
+    }
+  } catch (e) {
+    res.status(404).send();
+  }
 });
 module.exports = router;

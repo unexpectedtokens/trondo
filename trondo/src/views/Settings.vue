@@ -50,7 +50,7 @@ export default {
       padding: 60px 50px
       border-radius: 5px
       box-shadow: 0px 0px 25px -3px #b5b5b5
-      width: 300px
+      width: 100%
       min-height: 300px
       box-sizing: border-box
       button
@@ -129,7 +129,6 @@ export default {
         width: 80%
         margin-left: 10%
         padding: 60px 35px
-
     // .imagegrid
     //   display: grid
     //   grid-template-columns: 1fr 1fr 1fr
