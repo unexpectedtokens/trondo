@@ -27,11 +27,11 @@
       </transition>
       <transition name="fade">
         <button v-if="getUrl === '/' " class="smallgtaddbutton" @click="goToAdd">+ add</button>
-        <button
+        <!-- <button
           v-else-if="getUrl === '/projects'"
           class="smallgtaddbutton projectadder"
           @click="goToAddProject"
-        >Add project</button>
+        >Add project</button>-->
       </transition>
     </div>
   </div>

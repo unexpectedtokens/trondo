@@ -1,6 +1,7 @@
 <template>
   <div class="projectscontainer">
-    <h4>Your projects</h4>
+    <h4>This part of the app is under maintainance</h4>
+    <!-- <h4>Your projects</h4>
     <transition-group tag="ul" name="fade-projects" class="projectlist">
       <li v-for="(project) in projects" :key="Math.random()">
         <router-link :to="'/project/'+project._id">
@@ -9,6 +10,7 @@
         </router-link>
       </li>
     </transition-group>
+    -->
   </div>
 </template>
 <script>

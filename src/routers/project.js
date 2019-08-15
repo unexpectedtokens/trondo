@@ -2,6 +2,7 @@ const express = require("express");
 const router = new express.Router();
 const Project = require("../models/Project");
 const checkIfAuth = require("../middleware/auth");
+const ProjectTask = require("../models/Projecttask");
 
 //route to add new task
 router.post("/projects", checkIfAuth, async (req, res) => {
@@ -18,39 +19,52 @@ router.post("/projects", checkIfAuth, async (req, res) => {
     console.log(e);
   }
 });
+//route to get all projects
 router.get("/projects", checkIfAuth, async (req, res) => {
-  //temporary fix
-  //
   try {
     await req.user.populate("projects").execPopulate();
+    // req.user.projects.populate("tasks").execPopulate();
     res.send(req.user.projects);
   } catch (e) {
     console.log(e);
   }
 });
-router.get("/projects/:id", checkIfAuth, async (req, res) => {
-  const project = await Project.findById(req.params.id);
-  if (project && project.Owner === req.user._id) {
-    return res.send(project);
+//route to get single project
+router.get("/projects/:id/tasks", checkIfAuth, async (req, res) => {
+  try {
+    // const projects = await ProjectTask.find({ in: req.params.id });
+    const project = await Project.findById(req.params.id);
+    console.log(project);
+    await project.populate("taskss").execPopulate();
+    console.log(project.tasks);
+    return res.send(projects.tasks);
+  } catch (e) {
+    res.status(404).send();
   }
-  res.status(404).send();
 });
+//route to make changes to single project
 router.patch("/projects/:id", checkIfAuth, async (req, res) => {
   try {
-    const project = await Project.findById(req.params._id);
+    const project = await Project.findById(req.params.id);
+    console.log(project);
+
     const updates = Object.keys(req.body);
-    if (updates.includes(task)) {
+    if (updates.includes("task")) {
       const newTask = new ProjectTask({
-        ...req.body
+        title: req.body.task,
+        in: req.params.id
       });
-      project.tasks.concat({
+
+      project.tasks.push({
         _id: newTask._id
       });
+      console.log(newTask);
       await project.save();
       await newTask.save();
-      res.status(203).send();
+      res.status(201).send();
     }
   } catch (e) {
+    console.log(e);
     res.status(404).send();
   }
 });

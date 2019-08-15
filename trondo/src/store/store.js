@@ -16,7 +16,8 @@ export const store = new Vuex.Store({
     sideBarOpen: false,
     listener: null,
     background: "#dcedff",
-    url: ""
+    url: "",
+    projectTasks: []
   },
   getters: {
     getTodos: state => {
@@ -32,7 +33,11 @@ export const store = new Vuex.Store({
     getSidebarState: state => state.sideBarOpen,
     getNotifications: state => state.notifications,
     getBackground: state => state.background,
-    getUrl: state => state.url
+    getUrl: state => state.url,
+    getProjectTasksNotDone: state =>
+      state.projectTasks.filter(task => task.completed === false),
+    getProjectTasksDone: state =>
+      state.projectTasks.filter(task => task.completed)
   },
   mutations: {
     changeBackground: (state, payload) => {
@@ -71,6 +76,9 @@ export const store = new Vuex.Store({
     },
     handleFetchedProjects: (state, projects) => {
       state.projects = projects;
+    },
+    handleFetchedProjectTasks: (state, projectTasks) => {
+      state.projectTasks = projectTasks;
     },
     removeNotification: (state, { index }) => {
       state.notifications.splice(index, 1);
@@ -189,6 +197,29 @@ export const store = new Vuex.Store({
           commit("handleFetchedProjects", response.data);
           return resolve(response.data);
         });
+      });
+    },
+    getUserProjectTasks: ({ commit }, payload) => {
+      return new Promise((resolve, reject) => {
+        axios
+          .get(`http://localhost:4000/projects/${payload}/tasks`)
+          .then(response => {
+            commit("handleFetchedProjectTasks", response.data);
+            console.log(response.data);
+            return resolve(response.data);
+          });
+      });
+    },
+    addProjectTodo: ({ commit }, { task, _id }) => {
+      return new Promise((resolve, reject) => {
+        axios
+          .patch(`http://localhost:4000/projects/${_id}`, {
+            task
+          })
+          .then(() => {
+            return resolve();
+          })
+          .catch(e => reject(e));
       });
     },
     changeBackgroundAction: ({ commit }, payload) => {
