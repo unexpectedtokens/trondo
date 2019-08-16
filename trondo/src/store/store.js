@@ -2,6 +2,7 @@ import Vue from "vue";
 import Vuex from "vuex";
 import axios from "axios";
 Vue.use(Vuex);
+const endpoint = "http://localhost:4000";
 
 export const store = new Vuex.Store({
   state: {
@@ -58,11 +59,7 @@ export const store = new Vuex.Store({
     },
     authorize: (state, payload) => {
       state.authorized = true;
-      // const user = {
-      //   name: payload.user.name,
-      //   email: payload.user.email,
-      //   id: payload.user.uid
-      // };
+
       state.user = payload.user;
       state.token = payload.token;
       state.background = payload.user.background;
@@ -91,7 +88,7 @@ export const store = new Vuex.Store({
     register: ({ commit }, { email, password, name }) => {
       return new Promise((resolve, reject) => {
         axios
-          .post("http://localhost:4000/users", { email, password, name })
+          .post(endpoint + "/users", { email, password, name })
           .then(response => {
             const token = response.data.token;
             const user = response.data.user;
@@ -113,7 +110,7 @@ export const store = new Vuex.Store({
     login: ({ commit }, { email, password }) => {
       return new Promise((resolve, reject) => {
         axios
-          .post("http://localhost:4000/users/login", { email, password })
+          .post(endpoint + "/users/login", { email, password })
           .then(response => {
             const token = response.data.token;
             const user = response.data.user;
@@ -135,18 +132,18 @@ export const store = new Vuex.Store({
     logOut: ({ commit }) => {
       localStorage.removeItem("token");
       commit("unAuthorize");
-      axios.post("http://localhost:4000/users/logout");
+      axios.post(endpoint + "/users/logout");
     },
 
     addTodo: ({ commit }, { title, kind, due, id }) => {
       return new Promise((resolve, reject) => {
         axios
-          .post("http://localhost:4000/tasks", { title, kind, due, id })
+          .post(endpoint + "/tasks", { title, kind, due, id })
           .then(response => resolve(response));
       });
     },
     handleFetchedTodos: ({ commit }, payload) => {
-      axios.get("http://localhost:4000/tasks").then(data => {
+      axios.get(endpoint + "/tasks").then(data => {
         commit("handleFetchedTodos", data.data);
       });
     },
@@ -161,19 +158,14 @@ export const store = new Vuex.Store({
         });
       });
     },
-    checkIfAuth: ({ commit }) => {
-      return new Promise((resolve, reject) => {
-        axios
-          .get("http://localhost:4000/users/me")
-          .then(response => {
-            commit("authorize", {
-              user: response.data,
-              token: localStorage.getItem("token")
-            });
-            resolve();
-          })
-          .catch(e => reject(e));
-      });
+    checkIfAuth: async ({ commit }) => {
+      if (localStorage.getItem("token")) {
+        let user = await axios.get(endpoint + "/users/me");
+        commit("authorize", {
+          user: user.data,
+          token: localStorage.getItem("token")
+        });
+      }
     },
     notify: ({ commit }, payload) => {
       commit("notify", payload);
@@ -189,11 +181,11 @@ export const store = new Vuex.Store({
     },
     //project related actions
     addNewProject: ({ commit }, payload) => {
-      axios.post("http://localhost:4000/projects", { title: payload.title });
+      axios.post(endpoint + "/projects", { title: payload.title });
     },
     getUserProjects: ({ commit }, payload) => {
       return new Promise((resolve, reject) => {
-        axios.get("http://localhost:4000/projects").then(response => {
+        axios.get(endpoint + "/projects").then(response => {
           commit("handleFetchedProjects", response.data);
           return resolve(response.data);
         });
@@ -224,7 +216,7 @@ export const store = new Vuex.Store({
     },
     changeBackgroundAction: ({ commit }, payload) => {
       commit("changeBackground", payload);
-      axios.patch("http://localhost:4000/users/me", { background: payload });
+      axios.patch(endpoint + "/users/me", { background: payload });
     },
     changeUrl: ({ commit }, payload) => {
       commit("changeUrl", payload);

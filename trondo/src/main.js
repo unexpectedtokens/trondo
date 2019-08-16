@@ -11,7 +11,7 @@ Vue.prototype.$http = axios;
 library.add(faBars, faTrash, faTimes);
 const token = localStorage.getItem("token");
 if (token) {
-  Vue.prototype.$http.defaults.headers.common["Authorization"] = token;
+  Vue.prototype.$http.defaults.headers.common["authorization"] = token;
 }
 Vue.component("font-awesome-icon", FontAwesomeIcon);
 Vue.config.productionTip = false;

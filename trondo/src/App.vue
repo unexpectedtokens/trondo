@@ -71,12 +71,7 @@ export default {
       return this.$store.getters.getUrl;
     }
   },
-  created() {
-    this.$store
-      .dispatch("checkIfAuth")
-      .then(() => this.$store.dispatch("handleFetchedTodos"))
-      .catch(e => this.$router.push("/login"));
-  },
+
   updated() {
     this.$store.dispatch("changeUrl", this.$router.history.current.path);
   }
