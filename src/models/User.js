@@ -57,6 +57,11 @@ userSchema.virtual("tasks", {
   localField: "_id",
   foreignField: "Owner"
 });
+userSchema.virtual("projects", {
+  ref: "Project",
+  localField: "_id",
+  foreignField: "Owner"
+});
 
 userSchema.methods.genAuthToken = async function() {
   const user = this;

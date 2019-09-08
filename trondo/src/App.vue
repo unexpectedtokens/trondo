@@ -26,16 +26,12 @@
         <router-view />
       </transition>
       <transition name="fade">
-        <button
-          v-if="this.$router.history.current.path === '/' "
-          class="smallgtaddbutton"
-          @click="goToAdd"
-        >+ add</button>
-        <button
-          v-else-if="this.$router.history.current.path === '/projects'"
-          class="smallgtaddbutton"
+        <button v-if="getUrl === '/' " class="smallgtaddbutton" @click="goToAdd">+ add</button>
+        <!-- <button
+          v-else-if="getUrl === '/projects'"
+          class="smallgtaddbutton projectadder"
           @click="goToAddProject"
-        >Add project</button>
+        >Add project</button>-->
       </transition>
     </div>
   </div>
@@ -70,14 +66,12 @@ export default {
     },
     getBackground() {
       return this.$store.getters.getBackground;
+    },
+    getUrl() {
+      return this.$store.getters.getUrl;
     }
   },
-  created() {
-    this.$store
-      .dispatch("checkIfAuth")
-      .then(() => this.$store.dispatch("handleFetchedTodos"))
-      .catch(e => this.$router.push("/login"));
-  },
+
   updated() {
     this.$store.dispatch("changeUrl", this.$router.history.current.path);
   }
@@ -112,7 +106,7 @@ body
     width: 100%
     background-size: cover
     background-repeat: no-repeat
-    background-position: top
+    background-position: center
     transition: background-image 0.3s
     &.default 
       background: #dcedff
@@ -160,6 +154,8 @@ body
         cursor: pointer
         margin: 20px auto
         font-size: 1.1em
+        &.projectadder
+          display: block
         &:hover
           background: #5fb5e8
           transform: translateY(-3px)

@@ -10,38 +10,22 @@ const projectSchema = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       required: true,
       ref: "User"
-    },
-    users: [
-      {
-        _id: {
-          type: mongoose.Schema.Types.ObjectId
-        }
-      }
-    ],
-    tasks: [
-      {
-        title: {
-          type: String,
-          trim: true,
-          minLength: 10
-        },
-        AddedBy: {
-          type: mongoose.Schema.Types.ObjectId,
-          required: true,
-          ref: "User"
-        },
-        due: {
-          type: String
-        },
-        kind: {
-          type: String
-        }
-      }
-    ]
+    }
+    // tasks: [
+    //   {
+    //     type: mongoose.Schema.Types.ObjectId,
+    //     ref: "Projecttask"
+    //   }
+    // ]
   },
   {
     timestamps: true
   }
 );
+projectSchema.virtual("tasks", {
+  ref: "Projecttask",
+  localField: "_id",
+  foreignField: "in"
+});
 const Project = mongoose.model("Project", projectSchema);
 module.exports = Project;
