@@ -107,6 +107,7 @@ body
     background-size: cover
     background-repeat: no-repeat
     background-position: center
+    background-attachment: fixed
     transition: background-image 0.3s
     &.default 
       background: #dcedff

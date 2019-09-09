@@ -45,7 +45,7 @@ export default {
 };
 </script>
 
-<style lang="sass" scoped>
+<style lang="sass">
     #formcontainer
       background: #fff
       padding: 60px 50px

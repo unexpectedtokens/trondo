@@ -15,7 +15,7 @@
         <router-link to="/register">Sign up</router-link>
       </li>
       <li v-if="checkIfAuth" @click="toggleMenu()">
-        <router-link to="/projects">My projects</router-link>
+        <router-link to="/daily">Daily Tasks</router-link>
       </li>
       <li v-if="checkIfAuth">Logged in as {{getUser.name}}</li>
       <li v-if="checkIfAuth" @click="toggleMenu()">

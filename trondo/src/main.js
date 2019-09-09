@@ -4,11 +4,17 @@ import router from "./router/index.js";
 import axios from "axios";
 import { store } from "./store/store";
 import { library } from "@fortawesome/fontawesome-svg-core";
-import { faTrash, faBars, faTimes } from "@fortawesome/free-solid-svg-icons";
+import {
+  faTrash,
+  faBars,
+  faTimes,
+  faCheckCircle,
+  faCircle
+} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 
 Vue.prototype.$http = axios;
-library.add(faBars, faTrash, faTimes);
+library.add(faBars, faTrash, faTimes, faCheckCircle, faCircle);
 const token = localStorage.getItem("token");
 if (token) {
   Vue.prototype.$http.defaults.headers.common["authorization"] = token;

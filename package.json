@@ -19,6 +19,7 @@
     "mongodb": "*",
     "mongoose": "*",
     "multer": "*",
+    "node-schedule": "^1.3.2",
     "validator": "*"
   },
   "devDependencies": {

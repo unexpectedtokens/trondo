@@ -18,7 +18,7 @@ export const store = new Vuex.Store({
     listener: null,
     background: "#dcedff",
     url: "",
-    projectTasks: []
+    dailytasks: []
   },
   getters: {
     getTodos: state => {
@@ -27,20 +27,19 @@ export const store = new Vuex.Store({
       }
       return state.todos.filter(todo => todo.kind === state.filterBy);
     },
-    getProjects: state => state.projects,
+    getDailyTasks: state => state.dailytasks,
     getCurrentFilter: state => state.filterBy,
     getCurrentUser: state => state.user,
     checkIfAuth: state => state.authorized,
     getSidebarState: state => state.sideBarOpen,
     getNotifications: state => state.notifications,
     getBackground: state => state.background,
-    getUrl: state => state.url,
-    getProjectTasksNotDone: state =>
-      state.projectTasks.filter(task => task.completed === false),
-    getProjectTasksDone: state =>
-      state.projectTasks.filter(task => task.completed)
+    getUrl: state => state.url
   },
   mutations: {
+    setDailyTasks: (state, { tasks }) => {
+      state.dailytasks = tasks;
+    },
     changeBackground: (state, payload) => {
       state.background = payload;
     },
@@ -149,7 +148,7 @@ export const store = new Vuex.Store({
     },
     removeTodo: ({ commit }, { id }) => {
       return new Promise((resolve, reject) => {
-        axios.delete(`http://localhost:4000/tasks/${id}`).then(response => {
+        axios.delete(`${endpoint}/tasks/${id}`).then(response => {
           commit("notify", {
             message: "Successfully deleted task",
             type: "success"
@@ -191,27 +190,56 @@ export const store = new Vuex.Store({
         });
       });
     },
-    getUserProjectTasks: ({ commit }, payload) => {
-      return new Promise((resolve, reject) => {
-        axios
-          .get(`http://localhost:4000/projects/${payload}/tasks`)
-          .then(response => {
-            commit("handleFetchedProjectTasks", response.data);
-            console.log(response.data);
-            return resolve(response.data);
-          });
+    addDailyTask: ({ commit }, { title }) => {
+      axios.post(`${endpoint}/dtasks`, { title }).then(tasks => {
+        commit("setDailyTasks", { tasks: tasks.data });
       });
     },
-    addProjectTodo: ({ commit }, { task, _id }) => {
-      return new Promise((resolve, reject) => {
-        axios
-          .patch(`http://localhost:4000/projects/${_id}`, {
-            task
+    getDailyTasks: ({ commit }) => {
+      axios
+        .get(`${endpoint}/dtasks`)
+        .then(tasks => {
+          if (tasks.data.length == 0) {
+            commit("notify", {
+              message: "You have no daily tasks yet",
+              type: "success"
+            });
+            return commit("setDailyTasks", []);
+          }
+          commit("setDailyTasks", { tasks: tasks.data });
+        })
+        .catch(e =>
+          commit("notify", {
+            message: "Something went wrong",
+            type: e
           })
-          .then(() => {
-            return resolve();
-          })
-          .catch(e => reject(e));
+        );
+    },
+    completeDailyTask: ({ commit }, { id }) => {
+      axios.patch(`${endpoint}/dtasks/${id}`).then(tasks => {
+        if (tasks.data.length == 0) {
+          commit("notify", {
+            message: "You have no daily tasks yet",
+            type: "success"
+          });
+          return commit("setDailyTasks", []);
+        }
+        commit("setDailyTasks", { tasks: tasks.data });
+        if (tasks.data.filter(task => task._id === id)[0].completed) {
+          commit("notify", { message: "Nice job!", type: "success" });
+        }
+      });
+    },
+    deleteDailyTask: ({ commit }, { id }) => {
+      axios.delete(`${endpoint}/dtasks/${id}`).then(tasks => {
+        if (tasks.data.length == 0) {
+          commit("notify", {
+            message: "You have no daily tasks yet",
+            type: "success"
+          });
+          return commit("setDailyTasks", []);
+        }
+        commit("setDailyTasks", { tasks: tasks.data });
       });
     },
     changeBackgroundAction: ({ commit }, payload) => {

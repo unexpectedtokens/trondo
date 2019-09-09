@@ -57,8 +57,8 @@ userSchema.virtual("tasks", {
   localField: "_id",
   foreignField: "Owner"
 });
-userSchema.virtual("projects", {
-  ref: "Project",
+userSchema.virtual("dailyTask", {
+  ref: "dailytask",
   localField: "_id",
   foreignField: "Owner"
 });

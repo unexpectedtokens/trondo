@@ -3,7 +3,7 @@ import Router from "vue-router";
 import Todos from "@/views/Todos.vue";
 import Adder from "@/views/Adder.vue";
 import Register from "@/views/Register.vue";
-import Projects from "@/views/Projects.vue";
+import Projects from "@/views/Daily.vue";
 import Project from "@/views/Project.vue";
 import Newproject from "@/views/Newproject.vue";
 import Login from "@/views/Login.vue";
@@ -26,7 +26,7 @@ const router = new Router({
       name: "login"
     },
     {
-      path: "/projects",
+      path: "/daily",
       component: Projects,
       name: "Projects",
       meta: {
