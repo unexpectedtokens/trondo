@@ -44,6 +44,9 @@ app.use(projectRoute);
 app.get("/app", (req, res) => {
   res.sendFile(path.resolve(__dirname, "../trondo/dist/index.html"));
 });
+app.get("*", (req, res) => {
+  res.sendFile(path.resolve(__dirname, "../trondo/dist/index.html"));
+});
 
 app.listen(port, () => {
   console.log(`server is up in ${port}`);
