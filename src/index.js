@@ -41,7 +41,7 @@ app.use(express.json());
 app.use(userRoute);
 app.use(taskRoute);
 app.use(projectRoute);
-app.get("/app", (req, res) => {
+app.get("/", (req, res) => {
   res.sendFile(path.resolve(__dirname, "../trondo/dist/index.html"));
 });
 app.get("*", (req, res) => {

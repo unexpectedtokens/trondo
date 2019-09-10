@@ -129,9 +129,9 @@ export default {
         width: 80%
         margin-left: 10%
         padding: 60px 35px
-    // .imagegrid
-    //   display: grid
-    //   grid-template-columns: 1fr 1fr 1fr
+      .imagegrid
+        display: grid
+        grid-template-columns: 1fr
     //   grid-gap: 20px
     //   div
     //     transition: all 0.3s
