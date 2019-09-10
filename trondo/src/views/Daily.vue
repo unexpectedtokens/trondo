@@ -110,7 +110,7 @@ export default {
 @media (max-width: 700px) {
   .projectscontainer {
     .projectlist {
-      grid-template-columns: 1fr 1fr;
+      grid-template-columns: 1fr;
     }
   }
 }
