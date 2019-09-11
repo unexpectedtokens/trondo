@@ -66,6 +66,8 @@ export const store = new Vuex.Store({
     unAuthorize: state => {
       state.authorized = false;
       state.user = {};
+      state.todos = [];
+      state.dailytasks = [];
     },
     handleFetchedTodos: (state, todos) => {
       state.todos = todos;
@@ -92,8 +94,10 @@ export const store = new Vuex.Store({
             const token = response.data.token;
             const user = response.data.user;
             commit("authorize", { user, token });
-            localStorage.setItem("token", { token, user });
-            axios.defaults.headers.common["Authorization"] = token;
+            localStorage.setItem("token", token);
+            Vue.prototype.$http.defaults.headers.common[
+              "authorization"
+            ] = token;
             commit("notify", {
               message: `Welcome ${user.name}`,
               type: "success"
@@ -115,7 +119,9 @@ export const store = new Vuex.Store({
             const user = response.data.user;
             commit("authorize", { user, token });
             localStorage.setItem("token", token);
-            axios.defaults.headers.common["Authorization"] = token;
+            Vue.prototype.$http.defaults.headers.common[
+              "authorization"
+            ] = token;
             commit("notify", {
               message: `Welcome ${user.name}`,
               type: "success"

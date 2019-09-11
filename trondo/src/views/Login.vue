@@ -36,7 +36,7 @@ export default {
           password: this.password
         })
         .then(() => this.$router.push("/"))
-        .catch(e => console.log("what the fuck did you just do"));
+        .catch(e => e);
     }
   },
   mounted() {

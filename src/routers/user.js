@@ -9,6 +9,8 @@ router.get("/users", checkIfAuthenticated, async (req, res) => {
 });
 router.post("/users", async (req, res) => {
   const user = new User(req.body);
+  user.email = req.body.email.toLowerCase();
+  console.log(user.email);
   try {
     await user.save();
     const token = await user.genAuthToken();
@@ -99,8 +101,6 @@ router.get("/users/:id/avatar", async (req, res) => {
     res.status(404).send();
   }
 });
-
-///////
 
 router.get("/users/:id", async (req, res) => {
   try {

@@ -159,7 +159,7 @@ body
           display: block
         &:hover
           background: #5fb5e8
-          transform: translateY(-3px)
+          transform: translateY(-3px) translateX(-50%)
 
     
 .fade-enter-active, .fade-leave-active 
@@ -180,4 +180,7 @@ body
       margin-left: 0
       .smallgtaddbutton
         display: block
+        right: 50%
+        transform: translateX(-50%)
+  
 </style>

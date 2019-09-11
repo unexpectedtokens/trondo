@@ -129,30 +129,7 @@ export default {
         width: 80%
         margin-left: 10%
         padding: 60px 35px
-      .imagegrid
-        display: grid
-        grid-template-columns: 1fr
-    //   grid-gap: 20px
-    //   div
-    //     transition: all 0.3s
-    //     height: 100px
-    //     box-sizing: border-box
-    //     border-radius: 15px
-    //     background-size: cover
-    //     background-repeat: no-repeat
-    //     background-position: center
-    //     border: 5px solid transparent
-    //     cursor: pointer
-    //     &.default 
-    //       background: #dcedff
-    //     &.mountain
-    //       background-image: url("../assets/backgrounds/mountains.jpg")
-    //     &.fog
-    //       background-image: url("../assets/backgrounds/fog.jpg")
-    //     &.road
-    //       background-image: url("../assets/backgrounds/road.jpg")
-    //     &.wave
-    //       background-image: url("../assets/backgrounds/wave.jpg")
-    //     &.active
-    //       border: 5px solid #5fb5e8
+        .imagegrid
+          display: grid
+          grid-template-columns: 1fr
 </style>

@@ -107,6 +107,7 @@ export default {
     }
   }
 }
+
 @media (max-width: 700px) {
   .projectscontainer {
     .projectlist {
